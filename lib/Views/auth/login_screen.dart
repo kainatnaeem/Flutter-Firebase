@@ -7,6 +7,7 @@ import '../../Utils/widgets/custom_button.dart';
 import '../../Utils/widgets/custom_textfiled.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/login-screen';
   const LoginScreen({super.key});
 
   @override
@@ -58,11 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegisterScreen(),
-                      ));
+                  Navigator.pushNamed(context, RegisterScreen.routeName);
                 },
                 child: Text(
                   "Register",

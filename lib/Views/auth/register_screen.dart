@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase/Utils/widgets/password_textfield.dart';
 import 'package:flutter_firebase/Views/auth/login_screen.dart';
-import 'package:flutter_firebase/bloc/cubit/auth_cubit.dart';
-import 'package:flutter_firebase/bloc/cubit/auth_state.dart';
+import 'package:flutter_firebase/Views/profile/user_profile.dart';
+import 'package:flutter_firebase/bloc/auth-cubit/auth_cubit.dart';
+import 'package:flutter_firebase/bloc/auth-cubit/auth_state.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../Utils/widgets/custom_appbar.dart';
@@ -11,6 +12,7 @@ import '../../Utils/widgets/custom_button.dart';
 import '../../Utils/widgets/custom_textfiled.dart';
 
 class RegisterScreen extends StatefulWidget {
+  static const routeName = '/register-screen';
   const RegisterScreen({super.key});
 
   @override
@@ -72,17 +74,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is RegistorSuccessfullState) {
+          Navigator.pushNamed(context, UserProfileScreen.routeName);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text("Registration successful!"),
               backgroundColor: Colors.green,
             ),
           );
+
           clearControllers();
         } else if (state is AuthErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Registration Failed!"),
+              content: Text(state.errorMessege.toString()),
               backgroundColor: Colors.red,
             ),
           );
