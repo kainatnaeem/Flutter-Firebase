@@ -24,8 +24,25 @@ class AuthRepository {
 
       return true; // Registration successful
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      Exception(e.toString());
       return false; // Registration failed
+    }
+  }
+
+  Future<UserModel?> login(String email, String password) async {
+    UserCredential credential;
+    UserModel userModel;
+    try {
+      credential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      String uid = credential.user!.uid;
+      DocumentSnapshot userData =
+          await FirebaseFirestore.instance.collection("users").doc(uid).get();
+      userModel = UserModel.fromMap(userData.data() as Map<String, dynamic>);
+      return userModel;
+    } catch (e) {
+      Exception(e.toString());
+      return null;
     }
   }
 }
