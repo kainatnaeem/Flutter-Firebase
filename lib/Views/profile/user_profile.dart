@@ -27,19 +27,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                  leading: Icon(Icons.image),
-                  title: Text(
-                    "Select from Gallery",
-                    style: GoogleFonts.kanit(
-                        fontSize: 15, fontWeight: FontWeight.w300),
-                  )),
+                leading: Icon(Icons.image),
+                title: Text("upload from gallery"),
+              ),
               ListTile(
-                  leading: Icon(Icons.camera),
-                  title: Text(
-                    "Take a Picture",
-                    style: GoogleFonts.kanit(
-                        fontSize: 15, fontWeight: FontWeight.w300),
-                  ))
+                leading: Icon(Icons.camera_alt),
+                title: Text("Take a picture"),
+              )
             ],
           ),
         );
