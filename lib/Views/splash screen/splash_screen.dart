@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/Utils/sharedpref_helper.dart';
+import 'package:flutter_firebase/Views/home/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../auth/login_screen.dart';
@@ -21,9 +23,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigateToHome() async {
-    Timer.periodic(Duration(seconds: 3), (timer) {
-      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-      timer.cancel();
+    bool isLoggedIn = await SharedPreferenceHelper.isLoggedIn();
+
+    // Use Future.delayed instead of Timer.periodic
+    Future.delayed(Duration(seconds: 3), () {
+      if (isLoggedIn) {
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      } else {
+        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+      }
     });
   }
 

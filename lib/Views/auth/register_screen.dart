@@ -119,8 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               (state is AuthLoadingState)
                   ? Center(
-                      child: CircularProgressIndicator(
-                          backgroundColor: Colors.blue),
+                      child: CircularProgressIndicator(),
                     )
                   : CustombuttonWidget(
                       buttonHeight: 50,
