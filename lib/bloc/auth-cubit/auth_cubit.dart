@@ -9,7 +9,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthRepository authRepository = AuthRepository();
 
-  Future<void> Registor(
+  Future<void> registor(
       String email, String password, String confirmPassword) async {
     emit(AuthLoadingState());
     try {

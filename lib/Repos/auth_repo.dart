@@ -23,7 +23,7 @@ class AuthRepository {
           .set(newUser);
 
       return true; // Registration successful
-    } on Exception catch (e) {
+    } on FirebaseAuthException catch (e) {
       print(e.toString());
       return false; // Registration failed
     }

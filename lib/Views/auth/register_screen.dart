@@ -81,7 +81,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               backgroundColor: Colors.green,
             ),
           );
-
           clearControllers();
         } else if (state is AuthErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -143,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         } else {
                           context
                               .read<AuthCubit>()
-                              .Registor(email, pasword, confirmPasword);
+                              .registor(email, pasword, confirmPasword);
                         }
                       }),
               const SizedBox(
