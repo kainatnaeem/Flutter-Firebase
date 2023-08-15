@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/Utils/sharedpref_helper.dart';
 import 'package:flutter_firebase/Views/auth/login_screen.dart';
-import 'package:flutter_firebase/Views/profile/user_profile.dart';
+import 'package:flutter_firebase/Views/profile/complete_profile.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const Text("Logout")),
           ElevatedButton(
               onPressed: () async {
-                Navigator.pushNamed(context, UserProfileScreen.routeName);
+                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
               },
               child: const Text("UserProfile"))
         ],

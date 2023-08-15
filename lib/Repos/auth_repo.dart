@@ -6,26 +6,27 @@ import 'package:flutter_firebase/Models/user_model.dart';
 
 class AuthRepository {
   FirebaseAuth auth = FirebaseAuth.instance;
-  Future<bool> Registor(
+  late User firebaseUser;
+  Future<UserModel?> Registor(
       String email, String password, String confirmPassword) async {
     try {
       UserCredential? userCredential = await auth
           .createUserWithEmailAndPassword(email: email, password: password);
-
+      firebaseUser = userCredential.user!;
       String uid = userCredential.user!.uid;
-      Map<String, dynamic> newUser =
-          UserModel(uid: uid, email: email, fullname: '', profilepic: '')
-              .toMap();
+      UserModel newUser =
+          UserModel(uid: uid, email: email, fullname: '', profilepic: '');
 
       await FirebaseFirestore.instance
           .collection("users")
           .doc(uid)
-          .set(newUser);
+          .set(newUser.toMap());
 
-      return true; // Registration successful
+      return newUser;
+      // Registration successful
     } on FirebaseAuthException catch (e) {
       Exception(e.toString());
-      return false; // Registration failed
+      return null; // Registration failed
     }
   }
 

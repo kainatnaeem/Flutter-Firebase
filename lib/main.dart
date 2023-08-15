@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase/Utils/routes.dart';
 import 'package:flutter_firebase/bloc/auth-cubit/auth_cubit.dart';
+import 'package:flutter_firebase/bloc/profile-cubit/cubit/profile_cubit.dart';
 import 'package:flutter_firebase/firebase_options.dart';
 
 void main() async {
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ProfileCubit(),
         ),
       ],
       child: MaterialApp(

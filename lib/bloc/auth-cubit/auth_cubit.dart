@@ -14,10 +14,10 @@ class AuthCubit extends Cubit<AuthState> {
       String email, String password, String confirmPassword) async {
     emit(AuthLoadingState());
     try {
-      var isUserRegistered =
+      UserModel? userModel =
           await authRepository.Registor(email, password, confirmPassword);
-      if (isUserRegistered) {
-        emit(RegistorSuccessfullState());
+      if (userModel != null) {
+        emit(RegistorSuccessfullState(userModel: userModel));
       } else {
         emit(AuthErrorState(errorMessege: "Email is Already in use"));
       }

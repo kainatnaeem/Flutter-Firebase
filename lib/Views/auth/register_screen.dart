@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase/Repos/auth_repo.dart';
 import 'package:flutter_firebase/Utils/widgets/password_textfield.dart';
 import 'package:flutter_firebase/Views/auth/login_screen.dart';
-import 'package:flutter_firebase/Views/profile/user_profile.dart';
+import 'package:flutter_firebase/Views/profile/complete_profile.dart';
 import 'package:flutter_firebase/bloc/auth-cubit/auth_cubit.dart';
 import 'package:flutter_firebase/bloc/auth-cubit/auth_state.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,12 +70,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  AuthRepository authRepository = AuthRepository();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is RegistorSuccessfullState) {
-          Navigator.pushNamed(context, UserProfileScreen.routeName);
+          Navigator.pushNamed(context, CompleteProfileScreen.routeName,
+              arguments: {
+                "userModel": state.userModel,
+                "firebaseUser": authRepository.firebaseUser
+              });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text("Registration successful!"),
