@@ -5,14 +5,12 @@ import 'package:flutter_firebase/bloc/UserSearch-cubit/cubit/user_search_state.d
 
 class UserSearchCubit extends Cubit<UserSearchState> {
   UserSearchCubit() : super(UserSearchInitialState());
-  void searchUsers(String searchText) async {
+  void searchUsers(String searchText, String currentUserId) async {
     if (searchText.isEmpty) {
       emit(UserSearchInitialState());
       return;
     }
-
     emit(UserSearchLoadingState());
-
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('users')
@@ -21,8 +19,9 @@ class UserSearchCubit extends Cubit<UserSearchState> {
 
       final List<UserModel> users = querySnapshot.docs
           .map((doc) => UserModel.fromMap(doc.data() as Map<String, dynamic>))
+          .where((user) =>
+              user.uid != currentUserId) // Filter out the current user
           .toList();
-
       emit(UserSearchSuccessState(users));
     } catch (e) {
       emit(UserSearchErrorState('Error searching for users.'));

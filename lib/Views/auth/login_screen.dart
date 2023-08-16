@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase/Repos/auth_repo.dart';
 import 'package:flutter_firebase/Utils/sharedpref_helper.dart';
 import 'package:flutter_firebase/Utils/widgets/password_textfield.dart';
 import 'package:flutter_firebase/Views/auth/register_screen.dart';
@@ -44,13 +43,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is LoginSuccessState) {
-          Navigator.pushNamed(context, HomeScreen.routeName, arguments: {
-            'userModel': state.user,
-            'firebaseUser': AuthRepository.logedInUser
-          });
+          Navigator.pushNamed(context, HomeScreen.routeName,
+              arguments: {'userModel': state.user});
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Login successful!"),
+              content:
+                  Text("${state.user.fullname.toString()}Login successful!"),
               backgroundColor: Colors.green,
             ),
           );

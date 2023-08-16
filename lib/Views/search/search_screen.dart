@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase/Models/user_model.dart';
+import 'package:flutter_firebase/Repos/auth_repo.dart';
 import 'package:flutter_firebase/Utils/widgets/custom_appbar.dart';
 import 'package:flutter_firebase/Utils/widgets/custom_textfiled.dart';
+import 'package:flutter_firebase/Views/Chats%20screens/chat_room.dart';
 
 import '../../bloc/UserSearch-cubit/cubit/user_search_cubit.dart';
 import '../../bloc/UserSearch-cubit/cubit/user_search_state.dart';
@@ -20,10 +24,13 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       body: Column(
         children: [
-          CustomAppbar(title: "User Search"),
+          const CustomAppbar(title: "User Search"),
           CustomTextField(
             onChange: (searchText) {
-              context.read<UserSearchCubit>().searchUsers(searchText);
+              String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+              context
+                  .read<UserSearchCubit>()
+                  .searchUsers(searchText.trim(), currentUserId);
             },
             hintText: 'Search',
           ),
@@ -31,13 +38,13 @@ class _SearchScreenState extends State<SearchScreen> {
             child: BlocBuilder<UserSearchCubit, UserSearchState>(
               builder: (context, state) {
                 if (state is UserSearchInitialState) {
-                  return Center(child: Text('Enter a search term'));
+                  return const Center(child: Text('Enter a search term'));
                 } else if (state is UserSearchLoadingState) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (state is UserSearchSuccessState) {
                   final users = state.users;
                   if (users.isEmpty) {
-                    return Center(child: Text('No users found'));
+                    return const Center(child: Text('No users found'));
                   }
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 13.0),
@@ -46,13 +53,20 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (context, index) {
                         final user = users[index];
                         return ListTile(
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, Chatroom.routeName,
+                                arguments: {
+                                  "targetUser": user,
+                                });
+                          },
                           title: Text(user.fullname ?? ''),
                           subtitle: Text(user.email ?? ''),
                           leading: user.profilepic != null
                               ? CircleAvatar(
                                   backgroundImage:
                                       NetworkImage(user.profilepic!))
-                              : Icon(Icons.person),
+                              : const Icon(Icons.person),
                         );
                       },
                     ),

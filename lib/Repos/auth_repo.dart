@@ -7,7 +7,8 @@ import 'package:flutter_firebase/Models/user_model.dart';
 class AuthRepository {
   FirebaseAuth auth = FirebaseAuth.instance;
   static User? firebaseUser;
-  static User? logedInUser;
+  static  User? logedInUser;
+  static UserModel? myUserModel;
   Future<UserModel?> Registor(
       String email, String password, String confirmPassword) async {
     try {
@@ -37,11 +38,12 @@ class AuthRepository {
     try {
       credential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
-      logedInUser = credential.user;
+      logedInUser = credential.user!;
       String uid = credential.user!.uid;
       DocumentSnapshot userData =
           await FirebaseFirestore.instance.collection("users").doc(uid).get();
       userModel = UserModel.fromMap(userData.data() as Map<String, dynamic>);
+      myUserModel = userModel;
       return userModel;
     } catch (e) {
       Exception(e.toString());

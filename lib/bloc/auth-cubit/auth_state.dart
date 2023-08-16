@@ -13,8 +13,8 @@ class RegistorSuccessfullState extends AuthState {
 }
 
 class LoginSuccessState extends AuthState {
-  UserModel? user;
-  LoginSuccessState({this.user});
+  UserModel user;
+  LoginSuccessState({required this.user});
 }
 
 class AuthErrorState extends AuthState {
