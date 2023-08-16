@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase/Repos/auth_repo.dart';
 import 'package:flutter_firebase/Utils/sharedpref_helper.dart';
+import 'package:flutter_firebase/Utils/widgets/password_textfield.dart';
 import 'package:flutter_firebase/Views/auth/register_screen.dart';
 import 'package:flutter_firebase/Views/home/home_screen.dart';
 import 'package:flutter_firebase/bloc/auth-cubit/auth_cubit.dart';
@@ -42,8 +44,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is LoginSuccessState) {
-          Navigator.pushNamed(context, HomeScreen.routeName,
-              arguments: {"email": state.user!.email});
+          Navigator.pushNamed(context, HomeScreen.routeName, arguments: {
+            'userModel': state.user,
+            'firebaseUser': AuthRepository.logedInUser
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text("Login successful!"),
@@ -74,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 label: "Email",
                 controller: emailController,
               ),
-              CustomTextField(
+              PasswordTextfield(
                 label: "Password",
                 controller: passwordController,
               ),

@@ -2,26 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    super.key,
-    required this.label,
-    this.controller,
-    this.inputType,
-    this.hintText,
-    this.labelTheme,
-  });
-  final String label;
+  const CustomTextField(
+      {super.key,
+      this.label,
+      this.controller,
+      this.inputType,
+      this.hintText,
+      this.labelTheme,
+      this.onChange});
+  final String? label;
   final TextEditingController? controller;
   final TextInputType? inputType;
   final String? hintText;
   final TextStyle? labelTheme;
+  final Function(String)? onChange;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          label,
+          label ?? "",
           style: labelTheme ??
               GoogleFonts.kanit(fontSize: 14, fontWeight: FontWeight.w500),
         ),
@@ -38,6 +39,7 @@ class CustomTextField extends StatelessWidget {
             child: TextField(
               controller: controller,
               keyboardType: inputType,
+              onChanged: onChange,
               style: GoogleFonts.kanit(
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
@@ -46,6 +48,10 @@ class CustomTextField extends StatelessWidget {
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(13),
                   hintText: hintText,
+                  hintStyle: GoogleFonts.kanit(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black.withOpacity(0.3)),
                   fillColor: Colors.grey.withOpacity(0.2),
                   filled: true,
                   enabledBorder: OutlineInputBorder(

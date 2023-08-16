@@ -25,9 +25,10 @@ class CompleteProfileScreen extends StatefulWidget {
 
 class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   CroppedFile? imageFile;
-  TextEditingController fullNameController = TextEditingController();
   UserModel? userModel;
   User? firebaseUser;
+  TextEditingController fullNameController = TextEditingController();
+
   void selectImage(ImageSource source) async {
     var pickedFile = await ImagePicker().pickImage(source: source);
     if (pickedFile != null) {
@@ -99,12 +100,15 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    userModel = args['userModel'];
-    firebaseUser = args['firebaseUser'];
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if (userModel == null || firebaseUser == null) {
+      Map<String, dynamic> args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      userModel = args['userModel'];
+      firebaseUser = args['firebaseUser'];
+    }
   }
 
   @override
@@ -112,10 +116,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state is ProfileUpdatedState) {
-          Navigator.pushNamed(
-            context,
-            HomeScreen.routeName,
-          );
+          Navigator.pushNamed(context, HomeScreen.routeName, arguments: {
+            'userModel': userModel,
+            'firebaseUser': firebaseUser
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("Profile Updated!"),

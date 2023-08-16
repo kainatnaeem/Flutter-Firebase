@@ -44,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Validation Error'),
+          title: const Text('Validation Error'),
           content: Text(
             'Please fill the TextBoxs.',
             style: GoogleFonts.kanit(color: Colors.black),
@@ -79,14 +79,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Navigator.pushNamed(context, CompleteProfileScreen.routeName,
               arguments: {
                 "userModel": state.userModel,
-                "firebaseUser": authRepository.firebaseUser
+                "firebaseUser": AuthRepository.firebaseUser,
               });
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text("Registration successful!"),
               backgroundColor: Colors.green,
             ),
           );
+
           clearControllers();
         } else if (state is AuthErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -102,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           body: SafeArea(
               child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
               const CustomAppbar(
@@ -124,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: 20,
               ),
               (state is AuthLoadingState)
-                  ? Center(
+                  ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : CustombuttonWidget(

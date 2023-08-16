@@ -17,8 +17,14 @@ class ProfileRepository {
       String imageUrl = await snapshot.ref.getDownloadURL();
       user.profilepic = imageUrl;
       user.fullname = fullname;
-      await _firestore.collection("users").doc(user.uid).set(user.toMap());
-
+      await _firestore
+          .collection("users")
+          .doc(user.uid)
+          .set(user.toMap())
+          .then((value) {
+        print("${user.fullname} Uploaded");
+        print("${user.profilepic} Uploaded");
+      });
       return true;
     } on Exception catch (e) {
       print(e.toString());
